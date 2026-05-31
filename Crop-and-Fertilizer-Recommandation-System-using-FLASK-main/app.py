@@ -1,63 +1,63 @@
-# from flask import Flask, request, render_template
-# import pickle
-# import numpy as np
+from flask import Flask, request, render_template
+import pickle
+import numpy as np
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
-# # Load models
-# def load_models():
-#     try:
-#         nb_model = pickle.load(open('models/naive_bayes_model.pkl', 'rb'))
-#         rf_model = pickle.load(open('models/random_forest_model.pkl', 'rb'))
-#     except Exception as e:
-#         print(f"Error loading models: {e}")
-#         raise
-#     return nb_model, rf_model
+# Load models
+def load_models():
+    try:
+        nb_model = pickle.load(open('models/naive_bayes_model.pkl', 'rb'))
+        rf_model = pickle.load(open('models/random_forest_model.pkl', 'rb'))
+    except Exception as e:
+        print(f"Error loading models: {e}")
+        raise
+    return nb_model, rf_model
 
 
-# nb_model, rf_model = load_models()
+nb_model, rf_model = load_models()
 
-# @app.route('/', methods=['GET', 'POST'])
-# def index():
-#     if request.method == 'POST':
-#         try:
-#             # Extracting input data from the form
-#             N = float(request.form['N'])
-#             P = float(request.form['P'])
-#             K = float(request.form['K'])
-#             temperature = float(request.form['temperature'])
-#             humidity = float(request.form['humidity'])
-#             ph = float(request.form['ph'])
-#             rainfall = float(request.form['rainfall'])
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        try:
+            # Extracting input data from the form
+            N = float(request.form['N'])
+            P = float(request.form['P'])
+            K = float(request.form['K'])
+            temperature = float(request.form['temperature'])
+            humidity = float(request.form['humidity'])
+            ph = float(request.form['ph'])
+            rainfall = float(request.form['rainfall'])
 
-#             # Preprocess the data and predict
-#             crop_features = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
-#             crop_prediction = nb_model.predict(crop_features)[0]
+            # Preprocess the data and predict
+            crop_features = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
+            crop_prediction = nb_model.predict(crop_features)[0]
             
-#             fertilizer_features = np.array([[N, P, K]])
-#             fertilizer_prediction = rf_model.predict(fertilizer_features)[0]
+            fertilizer_features = np.array([[N, P, K]])
+            fertilizer_prediction = rf_model.predict(fertilizer_features)[0]
 
-#             # Update fertilizer prediction to actual names
-#             fertilizer_dict = {
-#                 0: 'Urea',
-#                 1: 'DAP',
-#                 2: 'Fourteen-Thirty Five-Fourteen',
-#                 3: 'Twenty Eight-Twenty Eight',
-#                 4: 'Seventeen-Seventeen-Seventeen',
-#                 5: 'Twenty-Twenty',
-#                 6: 'Ten-Twenty Six-Twenty Six'
-#                 #,  , , , 
-#             }
-#             fertilizer_name = fertilizer_dict.get(fertilizer_prediction, "Unknown Fertilizer")
+            # Update fertilizer prediction to actual names
+            fertilizer_dict = {
+                0: 'Urea',
+                1: 'DAP',
+                2: 'Fourteen-Thirty Five-Fourteen',
+                3: 'Twenty Eight-Twenty Eight',
+                4: 'Seventeen-Seventeen-Seventeen',
+                5: 'Twenty-Twenty',
+                6: 'Ten-Twenty Six-Twenty Six'
+                #,  , , , 
+            }
+            fertilizer_name = fertilizer_dict.get(fertilizer_prediction, "Unknown Fertilizer")
 
-#             return render_template('index.html', crop_prediction=crop_prediction, fertilizer_prediction=fertilizer_name)
-#         except Exception as e:
-#             return render_template('index.html', error=str(e))
+            return render_template('index.html', crop_prediction=crop_prediction, fertilizer_prediction=fertilizer_name)
+        except Exception as e:
+            return render_template('index.html', error=str(e))
 
-#     return render_template('index.html')
+    return render_template('index.html')
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 from flask import Flask, request, render_template

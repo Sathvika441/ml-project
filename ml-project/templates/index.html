@@ -42,6 +42,7 @@
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
         }
 
         button {
@@ -64,6 +65,7 @@
             padding: 15px;
             border-radius: 5px;
             background: #e8f5e9;
+            text-align: center;
         }
 
         .error {
@@ -72,10 +74,11 @@
             border-radius: 5px;
             background: #ffebee;
             color: red;
+            text-align: center;
         }
 
         h3 {
-            color: #333;
+            margin: 0;
         }
     </style>
 </head>
@@ -126,11 +129,8 @@
 
     </form>
 
-    {% if crop_prediction %}
+    {% if fertilizer_prediction %}
     <div class="result">
-        <h3>Recommended Crop:</h3>
-        <p><strong>{{ crop_prediction }}</strong></p>
-
         <h3>Recommended Fertilizer:</h3>
         <p><strong>{{ fertilizer_prediction }}</strong></p>
     </div>

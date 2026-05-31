@@ -19,7 +19,6 @@ fertilizer_dict = {
     6: 'Ten-Twenty Six-Twenty Six'
 }
 
-
 # Load Random Forest model
 def load_model():
     try:
@@ -32,41 +31,41 @@ def load_model():
         with open(rf_model_path, "rb") as f:
             rf_model = pickle.load(f)
 
+        print("Model loaded successfully")
         return rf_model
 
     except Exception as e:
         print(f"Error loading model: {e}")
         raise
 
-
 # Load model once at startup
 rf_model = load_model()
-
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-
 @app.route('/', methods=['POST'])
 def predict():
     try:
-        # Get user input
+        print("Predict button clicked")
+
         N = float(request.form['N'])
         P = float(request.form['P'])
         K = float(request.form['K'])
 
-        # Fertilizer prediction
-        fertilizer_features = np.array([[N, P, K]])
+        print(f"Inputs: N={N}, P={P}, K={K}")
 
-        fertilizer_prediction = rf_model.predict(
-            fertilizer_features
-        )[0]
+        features = np.array([[N, P, K]])
+
+        prediction = rf_model.predict(features)[0]
 
         fertilizer_name = fertilizer_dict.get(
-            fertilizer_prediction,
+            prediction,
             "Unknown Fertilizer"
         )
+
+        print("Prediction:", fertilizer_name)
 
         return render_template(
             'index.html',
@@ -74,11 +73,12 @@ def predict():
         )
 
     except Exception as e:
+        print("ERROR:", str(e))
+
         return render_template(
             'index.html',
-            error=f"Error: {str(e)}"
+            error=str(e)
         )
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)

@@ -11,6 +11,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Load models
 def load_models():
     try:
+        nb_model_path = os.path.join(BASE_DIR, "models", "naive_bayes_model.pkl")
         rf_model_path = os.path.join(BASE_DIR, "models", "random_forest_model.pkl")
 
         with open(nb_model_path, "rb") as f:

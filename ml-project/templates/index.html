@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop & Fertilizer Recommendation System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 70%;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c7a2c;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2c7a2c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #256625;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #e8f5e9;
+        }
+
+        .error {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #ffebee;
+            color: red;
+        }
+
+        h3 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Crop & Fertilizer Recommendation System</h1>
+
+    <form method="POST">
+
+        <div class="form-group">
+            <label>Nitrogen (N)</label>
+            <input type="number" step="any" name="N" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phosphorus (P)</label>
+            <input type="number" step="any" name="P" required>
+        </div>
+
+        <div class="form-group">
+            <label>Potassium (K)</label>
+            <input type="number" step="any" name="K" required>
+        </div>
+
+        <div class="form-group">
+            <label>Temperature (°C)</label>
+            <input type="number" step="any" name="temperature" required>
+        </div>
+
+        <div class="form-group">
+            <label>Humidity (%)</label>
+            <input type="number" step="any" name="humidity" required>
+        </div>
+
+        <div class="form-group">
+            <label>pH Value</label>
+            <input type="number" step="any" name="ph" required>
+        </div>
+
+        <div class="form-group">
+            <label>Rainfall (mm)</label>
+            <input type="number" step="any" name="rainfall" required>
+        </div>
+
+        <button type="submit">Predict</button>
+
+    </form>
+
+    {% if crop_prediction %}
+    <div class="result">
+        <h3>Recommended Crop:</h3>
+        <p><strong>{{ crop_prediction }}</strong></p>
+
+        <h3>Recommended Fertilizer:</h3>
+        <p><strong>{{ fertilizer_prediction }}</strong></p>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="error">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
